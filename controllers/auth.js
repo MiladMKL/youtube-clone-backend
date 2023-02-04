@@ -1,9 +1,7 @@
-import mongoose from 'mongoose';
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import { createError } from '../error.js';
 import jwt from 'jsonwebtoken';
-// import dotenv from 'dotenv';
 
 // Wer übergibt mir "next"?
 export const signup = async (req, res, next) => {
