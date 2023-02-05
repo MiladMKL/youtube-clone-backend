@@ -3,6 +3,7 @@ import {
   addVideo,
   addView,
   getByTag,
+  getVideo,
   random,
   search,
   sub,
@@ -21,7 +22,7 @@ router.put('/:id', verifyToken, addVideo);
 // Create a video
 router.delete('/:id', verifyToken, addVideo);
 
-router.get('/find/:id', addVideo);
+router.get('/find/:id', getVideo);
 
 router.put('/view/:id', addView);
 
