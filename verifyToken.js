@@ -15,7 +15,7 @@ export const verifyToken = (req, res, next) => {
     }
     // Füge einen weiteren key zu dem Javascript Object und setze aus user!
     req.user = user;
-    console.log('req: ', req);
+    // console.log('req: ', req);
     next();
   });
 };

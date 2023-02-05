@@ -4,7 +4,7 @@ import User from '../models/User.js';
 export const update = async (req, res, next) => {
   // req.params.id -> id im URL
   if (req.params.id === req.user.id) {
-    console.log(req.params.id, ' : ', req.user.id);
+    // console.log(req.params.id, ' : ', req.user.id);
     try {
       const updateUser = await User.findByIdAndUpdate(
         req.params.id,
@@ -35,13 +35,43 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
-export const getUser = (req, res, next) => {
-  
+export const getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.status(200).json(user);
+  } catch (err) {
+    next(err);
+  }
 };
 
-export const subscribe = (req, res, next) => {};
+export const subscribe = async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.user.id, {
+      // Füge zu subscribedUsers das id des subscribers
+      $push: { subscribedUsers: req.params.id },
+    });
+    await User.findByIdAndUpdate(req.params.id, {
+      $inc: { subscribers: 1 },
+    });
+    res.status(200).json('Subcription successfull.');
+  } catch (err) {
+    next(err);
+  }
+};
 
-export const unsubscribe = (req, res, next) => {};
+export const unsubscribe = async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.user.id, {
+      $pull: { subscribedUsers: req.params.id },
+    });
+    await User.findByIdAndUpdate(req.params.id, {
+      $inc: { subscribers: -1 },
+    });
+    res.status(200).json('Unsubcription successfull.');
+  } catch (err) {
+    next(err);
+  }
+};
 
 export const like = (req, res, next) => {};
 
